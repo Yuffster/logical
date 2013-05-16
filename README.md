@@ -90,6 +90,16 @@ Will render the same as:
 		</div>
 	<% } %>
 
+Conditionals:
+
+	<% if (cats): %>
+		You have <%= cats %> <%= (cats.length==1) ? 'cat' : 'cats' %>.
+	<% else if (dogs): %>
+		You are clearly a dog person.
+	<% else: %>
+		You should adopt a pet.
+	<% end %>
+
 ### Item iteration
 
 	<% each (var cat in cats): %>
@@ -106,6 +116,28 @@ Renders the same as:
 			<%= cat.name %>
 		</div>
 	<% } %>
+
+## Helpers
+
+You can define helpers using the addHelper method.
+
+In your code:
+
+	Logical.addHelper('pluralize', function(arr, singular, plural) {
+		var output = arr.length+" ";
+		if (arr.length==1) output += singular;
+		else output += plural || singular+'s';
+		return output;
+	});
+
+In your template:
+	
+	You have <%= pluralize(cats, 'cat'); %>.
+
+Output:
+
+	You have 3 cats.
+
 
 ## Roadmap
 
