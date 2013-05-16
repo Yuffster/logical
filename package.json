@@ -1,0 +1,12 @@
+{
+	"author": "Michelle Steigerwalt <msteigerwalt@gmail.com>",
+	"name": "rjs",
+	"description": "A sandboxed client/server JavaScript-based template engine with a touch of syntax sugar.",
+	"version": "0.1.0",
+	"homepage": "http://github.com/Yuffster/rjs",
+	"main": "./lib/core.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Yuffster/rjs"
+	}
+}
