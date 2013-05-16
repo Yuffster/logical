@@ -106,3 +106,10 @@ Renders the same as:
 			<%= cat.name %>
 		</div>
 	<% } %>
+
+## Roadmap
+
+Two additional modules are being developed using Logical's core.  The first 
+will provide support for partial templates which are tree-aware.  The second
+will add helper methods to allow for hooks to be made into the rest of the
+application.
