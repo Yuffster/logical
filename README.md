@@ -31,11 +31,7 @@ The easiest way to use RJS is to use the standalone `RJS.render` method.
 
 	RJS.render("<%= title %>", {title:"hello, world"}, console.log);
 
-### Basic Usage
-
-	console.log(RJS.render("<%= title %>", {title:"hello, world"}));
-
-### Server-Side/Full-Stack Usage
+Or using CommonJS:
 
 	var rjs = require('rjs');
 	rjs.render('<%= message %>', {message:'Hello, world.'});
