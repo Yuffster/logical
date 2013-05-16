@@ -1,11 +1,12 @@
-RJS (Rendered JavaScript)
+Logical: Sandboxed JavaScript Templates
 ----
 
-RJS is a self-contained, super lightweight (1KB when compressed) JavaScript
-templating library which works on both the client and server side.
+Logical is a self-contained, featherweight JavaScript template library
+which works on both the client and server side.
 
-RJS allows the developer to use the entire JavaScript language and place simple
-logic into templates without causing problems outside of the template scope.
+Logical allows the developer to use the entire JavaScript language and place 
+simple logic into templates without having access to the rest of the 
+application environment (global variables, database access APIs, etc).
 
 ## Examples
 
@@ -17,7 +18,7 @@ Standard JS syntax:
 		<% } %>
 	</ul>
 
-Taking advantage of RJS's syntax sugar:
+Taking advantage of Logical's syntax sugar:
 
 	<ul>
 		<% each(var item in items): %>
@@ -27,48 +28,48 @@ Taking advantage of RJS's syntax sugar:
 
 ## Basic Usage
 
-The easiest way to use RJS is to use the standalone `RJS.render` method.
+The easiest way to use Logical is to use the standalone `Logical.render` method.
 
-	RJS.render("<%= title %>", {title:"hello, world"}, console.log);
+	Logical.render("<%= title %>", {title:"hello, world"}, console.log);
 
 Or using CommonJS:
 
-	var rjs = require('rjs');
-	rjs.render('<%= message %>', {message:'Hello, world.'});
+	var Logical = require('logical');
+	logical.render('<%= message %>', {message:'Hello, world.'});
 
 ## Precompiling Templates
 
 If you plan to use a template extensively, you can pre-compile and cache 
 templates using the compile function.
 
-	var tmp = RJS.compile('<%= message %>');
-	tmp.render({message:'Hello, world.'});
+	var tmp = Logical.compile('<%= message %>');
+	Logical.render({message:'Hello, world.'});
 
 ## Collection Rendering
 
 If you pass an array of objects to render instead of an object, the template
 will be rendered using each object in the array and concatenated.
 
-	var item = RJS.compile("<li><%= name %></li>"),
+	var item = Logical.compile("<li><%= name %></li>"),
 	    data = [{'name':'Tom'}, {'name':'Dick'}, {'name':'Harry'}];
 	
-	$('#myList').inject(list_item.compile(data));
+	$('#myList').inject(item.compile(data));
 
 ## Advanced Usage 
 
-    var tmps = new RJS();
+    var tmps = new Logical();
 	tmps.add('index', "Welcome to <%= title %>!");
 	tmps.render('index', {title:'My Site'}, console.log);
 
 ## Sandbox Mode
 
-By default, RJS runs in a sandboxed mode to prevent any pollution of the global
-scope with dangling template variables.  In Node.JS, a child process will be 
-created.  In the browser, an iframe will be used.
+By default, Logical runs in a sandboxed mode to prevent any pollution of the 
+global scope with dangling template variables.  In Node.JS, a child process 
+will be created.  In the browser, an iframe will be used.
 
 ## Syntax Sugar
 
-RJS supports the following syntax sugar in a limited fashion.
+Logical supports the following syntax sugar in a limited fashion.
 
 In order to negate the need for a sophisticated parser, syntax sugar matches
 are very limited and must be placed within their own code block.
