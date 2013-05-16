@@ -43,7 +43,7 @@ If you plan to use a template extensively, you can pre-compile and cache
 templates using the compile function.
 
 	var tmp = Logical.compile('<%= message %>');
-	Logical.render({message:'Hello, world.'});
+	tmp.render({message:'Hello, world.'});
 
 ## Collection Rendering
 
