@@ -48,25 +48,35 @@ function testLogical(logical, instanceVar) {
 		},
 		helpers: {
 			'custom':           ["<%= pluralize(cats, 'cat') %>", 'cats'],
-			'partials':         ["<%= partial('cdats') %>", "Cats are neat."]
+			'partials':         ["<%= partial('cats') %>", "Cats are neat."]
 		},
 		scoping: {
 			'time':             ["<%= outputTime() %>", data.time],
 			'data':             ["<%= secret %>", data.secret]
+		}, 
+		html: {
+			'list':             [
+			                     	"<ul><% each (cat in cats): %>"+
+			                     	"<li><%= cat.name %></li>"+
+			                    	"<% end %></ul>", 
+			                    	"<ul><li>Meow</li><li>Kitty</li></ul>"
+			                    ]
 		}
 	};
 
 	for (title in cases) {
 		group = cases[title];
-		var name, result, error;
+		var name, result="", error = "";
 		for (name in group) {
 			tests++;
-			error = false;
+			result = "";
+			error  = "";
 			try {
 				result = logical.render(group[name][0], data); 
 			} catch (e) {
 				error = e;
 			}
+			result = result.replace(/\s+/, ' ');
 			if (group[name][1]!=result||error) {
 				process.stdout.write('\033[31m.\033[0m');
 				errors.push("\033[31mFAIL\033[0m: "+title+", "+name);
