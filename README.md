@@ -138,6 +138,39 @@ Output:
 
 	You have 3 cats.
 
+## Named Templates
+
+You can store templates for reference later using the addTemplate method.
+
+	Logical.addTemplate('cats', "You have <%= pluralize(cats, 'cat'); %>.");
+	Logical.render('cats', {cats:[1,2,3]});
+
+## Partials
+
+You can render named templates from other templates by using the built-in
+"partial" helper.
+
+	<% if (cats): %>
+		<%= partial("cats", {cats[1,2,3]}); %>
+	<% end %>
+
+## Distinct Instances
+
+For convenience, Logical.addTemplate / Logical.addHelper will attach templates
+and helpers to an internally global pool of helpers and templates.
+
+If you would like to have more control over several template environments, 
+you can use the Logical.instance() method.
+
+	var mySite = Logical.instance();
+	mySite.addTemplate("index", "Welcome to my site!");
+
+	var myOtherSite = Logical.instance();
+	myOtherSite.addTemplate('index', "Welcome to my other site!");
+
+	mySite.render('index'); // Welcome to my site!
+
+	myOtherSite.render('index'); // Welcome to my other site!
 
 ## Roadmap
 
