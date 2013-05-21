@@ -1,4 +1,4 @@
-var logical = require('../lib/core.js');
+var Logical = require('../lib/core.js');
 
 
 var passed = 0, tests = 0, errors = [];
@@ -26,7 +26,11 @@ function testLogical(logical, instanceVar) {
 
 	var cases = {
 		'basics': {
-			'plain string':     ["Hello, world!", "Hello, world!"]
+			'plain string':     ["Hello, world!", "Hello, world!"],
+			'functions':        ["<% var day = new Date().getDay(); %>"+
+			                     "<% if (day): %>TGIW!<% else if (day==2): %>"+
+			                     "Tomorrow is Wednesday!\n<%else:%>Whatever<%end%>",
+			                     "TGIW!"]
 		},
 		'loop sugar': {
 			'each with var':    ["<% each (var cat in cats): %><%= cat.name %><% end %>", "MeowKitty"],
@@ -93,15 +97,13 @@ function testLogical(logical, instanceVar) {
 
 }
 
-// It's not a real library until I get to play with ANSI color codes.
 console.log(
-	"\033[38;5;"+(29+88)+"mlogical\033[38;5;"+(14+232)
-	+"m: templates for JavaScript.\033[0m"
+	"logical: templates for JavaScript."
 );
 
-testLogical(logical, 'global');
-testLogical(logical.instance(), 'instance1');
-testLogical(logical.instance(), 'instance2');
+testLogical(Logical, 'global');
+testLogical(Logical.instance(), 'instance1');
+testLogical(Logical.instance(), 'instance2');
 
 console.log("\r");
 
@@ -110,4 +112,5 @@ if (passed==tests) {
 } else {
 	for (var i in errors) console.log(errors[i]);
 	console.log("\033[31mFailed: "+passed+'/'+tests, '\033[0m');
+	process.exit(1);
 }
