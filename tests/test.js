@@ -22,7 +22,7 @@ function testLogical(logical, instanceVar) {
 		return data.time;
 	});
 
-	logical.addTemplate('cats', "Cats are neat.");
+	logical.addTemplate('cat', "<%= name %>");
 
 	var cases = {
 		'basics': {
@@ -52,7 +52,7 @@ function testLogical(logical, instanceVar) {
 		},
 		helpers: {
 			'custom':           ["<%= pluralize(cats, 'cat') %>", 'cats'],
-			'partials':         ["<%= partial('cats') %>", "Cats are neat."]
+			'partials':         ["<%= partial('cat', [{name:'Meow'}, {name:'Kitty'}]) %>", "MeowKitty"]
 		},
 		scoping: {
 			'time':             ["<%= outputTime() %>", data.time],
