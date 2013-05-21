@@ -1,6 +1,8 @@
 Logical: Sandboxed JavaScript Templates
 ----
 
+[![Build Status](https://secure.travis-ci.org/Yuffster/logical.png)](http://travis-ci.org/Yuffster/logical.js)
+
 Logical is a self-contained, featherweight JavaScript template library
 which works on both the client and server side.
 
