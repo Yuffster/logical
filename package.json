@@ -8,5 +8,8 @@
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/Yuffster/logical.git"
+	},
+	"scripts": {
+		"test": "node tests/test.js"
 	}
 }
