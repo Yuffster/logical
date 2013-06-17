@@ -14,54 +14,68 @@ application environment (global variables, database access APIs, etc).
 
 Standard JS syntax:
 
-	<ul>
-		<% for (var i in items) { %>
-			<li><%= items[i].name %></li>
-		<% } %>
-	</ul>
+```javascript
+<ul>
+	<% for (var i in items) { %>
+		<li><%= items[i].name %></li>
+	<% } %>
+</ul>
+```
 
 Taking advantage of Logical's syntax sugar:
 
-	<ul>
-		<% each(var item in items): %>
-			<li><%= item.name %></li>
-		<% end %>
-	</ul>
+```javascript
+<ul>
+	<% each(var item in items): %>
+		<li><%= item.name %></li>
+	<% end %>
+</ul>
+```
 
 ## Basic Usage
 
 The easiest way to use Logical is to use the standalone `Logical.render` method.
 
-	Logical.render("<%= title %>", {title:"hello, world"}, console.log);
+```javascript
+Logical.render("<%= title %>", {title:"hello, world"}, console.log);
+```
 
 Or using CommonJS:
 
-	var Logical = require('logical');
-	logical.render('<%= message %>', {message:'Hello, world.'});
+```javascript
+var Logical = require('logical');
+logical.render('<%= message %>', {message:'Hello, world.'});
+```
 
 ## Precompiling Templates
 
 If you plan to use a template extensively, you can pre-compile and cache 
 templates using the compile function.
 
-	var tmp = Logical.compile('<%= message %>');
-	tmp.render({message:'Hello, world.'});
+```javascript
+var tmp = Logical.compile('<%= message %>');
+tmp.render({message:'Hello, world.'});
+```
 
 ## Collection Rendering
 
 If you pass an array of objects to render instead of an object, the template
 will be rendered using each object in the array and concatenated.
 
-	var item = Logical.compile("<li><%= name %></li>"),
-	    data = [{'name':'Tom'}, {'name':'Dick'}, {'name':'Harry'}];
-	
-	$('#myList').inject(item.compile(data));
+```javascript
+var item = Logical.compile("<li><%= name %></li>"),
+    data = [{'name':'Tom'}, {'name':'Dick'}, {'name':'Harry'}];
+
+$('#myList').inject(item.compile(data));
+```
 
 ## Advanced Usage 
 
-    var tmps = new Logical();
-	tmps.add('index', "Welcome to <%= title %>!");
-	tmps.render('index', {title:'My Site'}, console.log);
+```javascript
+var tmps = new Logical();
+tmps.add('index', "Welcome to <%= title %>!");
+tmps.render('index', {title:'My Site'}, console.log);
+```
 
 ## Sandbox Mode
 
@@ -78,46 +92,56 @@ are very limited and must be placed within their own code block.
 
 ### Forget the Curly Brackets
 
-	<% for(var i in cats): %>
-		<div class="cat">
-			<%= cats[i].name %>
-		</div>
-	<% end %>
+```javascript
+<% for(var i in cats): %>
+	<div class="cat">
+		<%= cats[i].name %>
+	</div>
+<% end %>
+```
 
 Will render the same as:
 
-	<% for(var i in cats) { %>
-		<div class="cat">
-			<%= cats[i].name %>
-		</div>
-	<% } %>
+```javascript
+<% for(var i in cats) { %>
+	<div class="cat">
+		<%= cats[i].name %>
+	</div>
+<% } %>
+```
 
 Conditionals:
 
-	<% if (cats): %>
-		You have <%= cats %> <%= (cats.length==1) ? 'cat' : 'cats' %>.
-	<% else if (dogs): %>
-		You are clearly a dog person.
-	<% else: %>
-		You should adopt a pet.
-	<% end %>
+```javascript
+<% if (cats): %>
+	You have <%= cats %> <%= (cats.length==1) ? 'cat' : 'cats' %>.
+<% else if (dogs): %>
+	You are clearly a dog person.
+<% else: %>
+	You should adopt a pet.
+<% end %>
+```
 
 ### Item iteration
 
-	<% each (var cat in cats): %>
-		<div class="cat">
-			<%= cat.name %>
-		</div>
-	<% end %>
+```javascript
+<% each (var cat in cats): %>
+	<div class="cat">
+		<%= cat.name %>
+	</div>
+<% end %>
+```
 
 Renders the same as:
 
-	<% for(var cat in cats) { %>
-		<% cat = cats[i]; %>
-		<div class="cat">
-			<%= cat.name %>
-		</div>
-	<% } %>
+```javascript
+<% for(var cat in cats) { %>
+	<% cat = cats[i]; %>
+	<div class="cat">
+		<%= cat.name %>
+	</div>
+<% } %>
+```
 
 ## Helpers
 
@@ -125,36 +149,44 @@ You can define helpers using the addHelper method.
 
 In your code:
 
-	Logical.addHelper('pluralize', function(arr, singular, plural) {
-		var output = arr.length+" ";
-		if (arr.length==1) output += singular;
-		else output += plural || singular+'s';
-		return output;
-	});
+```javascript
+Logical.addHelper('pluralize', function(arr, singular, plural) {
+	var output = arr.length+" ";
+	if (arr.length==1) output += singular;
+	else output += plural || singular+'s';
+	return output;
+});
+```
 
 In your template:
-	
-	You have <%= pluralize(cats, 'cat'); %>.
+
+```javascript	
+You have <%= pluralize(cats, 'cat'); %>.
+```
 
 Output:
 
-	You have 3 cats.
+> You have 3 cats.
 
 ## Named Templates
 
 You can store templates for reference later using the addTemplate method.
 
-	Logical.addTemplate('cats', "You have <%= pluralize(cats, 'cat'); %>.");
-	Logical.render('cats', {cats:[1,2,3]});
+```javascript
+Logical.addTemplate('cats', "You have <%= pluralize(cats, 'cat'); %>.");
+Logical.render('cats', {cats:[1,2,3]});
+```
 
 ## Partials
 
 You can render named templates from other templates by using the built-in
 "partial" helper.
 
-	<% if (cats): %>
-		<%= partial("cats", {cats[1,2,3]}); %>
-	<% end %>
+```javascript
+<% if (cats): %>
+	<%= partial("cats", {cats[1,2,3]}); %>
+<% end %>
+```
 
 ## Distinct Instances
 
@@ -164,15 +196,17 @@ and helpers to an internally global pool of helpers and templates.
 If you would like to have more control over several template environments, 
 you can use the Logical.instance() method.
 
-	var mySite = Logical.instance();
-	mySite.addTemplate("index", "Welcome to my site!");
+```javascript
+var mySite = Logical.instance();
+mySite.addTemplate("index", "Welcome to my site!");
 
-	var myOtherSite = Logical.instance();
-	myOtherSite.addTemplate('index', "Welcome to my other site!");
+var myOtherSite = Logical.instance();
+myOtherSite.addTemplate('index', "Welcome to my other site!");
 
-	mySite.render('index'); // Welcome to my site!
+mySite.render('index'); // Welcome to my site!
 
-	myOtherSite.render('index'); // Welcome to my other site!
+myOtherSite.render('index'); // Welcome to my other site!
+```
 
 ## Roadmap
 
