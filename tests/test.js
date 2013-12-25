@@ -1,9 +1,8 @@
 var Logical = require('../lib/core.js');
 
-
 var passed = 0, tests = 0, errors = [];
 
-function testLogical(logical, instanceVar) {
+function testLogical(logical, instanceVar, expStart, expEnd) {
 
 	var data = {
 		cats: [
@@ -75,6 +74,12 @@ function testLogical(logical, instanceVar) {
 			tests++;
 			result = "";
 			error  = "";
+			if (expStart) {
+				group[name][0] = group[name][0].replace(/<%/g, expStart);
+			}
+			if (expEnd) {
+				group[name][0] = group[name][0].replace(/%>/g, expEnd);
+			}
 			try {
 				result = logical.render(group[name][0], data); 
 			} catch (e) {
@@ -104,6 +109,12 @@ console.log(
 testLogical(Logical, 'global');
 testLogical(Logical.instance(), 'instance1');
 testLogical(Logical.instance(), 'instance2');
+
+var custom = Logical.instance();
+custom.config('expression_start', '{{');
+custom.config('expression_end', '}}');
+
+testLogical(custom, '', '{{', '}}')
 
 console.log("\r");
 
